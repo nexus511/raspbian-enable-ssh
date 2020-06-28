@@ -28,10 +28,10 @@ sudo apt install util-linux mtools dosfstools python3
 
 ## Usage
 
-The script just takes the image file as a parameter. Just call
+To just enable ssh, use the --enable-ssh parameter. Just call
 
 ```
-python3 enable_ssh.py 2020-05-27-raspios-buster-lite-armhf.img
+python3 enable_ssh.py --enable-ssh 2020-05-27-raspios-buster-lite-armhf.img
 ```
 
 if 2020-05-27-raspios-buster-lite-armhf.img is your desired image file. It
@@ -39,3 +39,21 @@ will automatically add a file named `ssh` to the root of the boot partition.
 You don't need root to perform this operation, as the image is not mounted
 but the fat-filesystem is modified instead.
 
+You can also use the script to write a wpa_supplicant.conf file to the
+partitions to make sure that the device also connects to a network
+automatically, if you don't like to use ethernet or are using a pi zero or a
+pi A+.
+
+You can add one or multiple wifis using the --add-wifi parameter:
+
+```
+python3 enable_ssh.py --add-wifi MySsid:MyPsk 2020-05-27-raspios-buster-lite-armhf.img
+```
+
+MySsid is the SSID and MyPsk the PSK of the connection. If you want to use
+special characters, you can URL-encode the SSID and PSK. This can be done
+using urllib. You can use this command line:
+
+```
+python3 -c 'from urllib.parse import quote; print(quote("This:Password!"));'
+```
